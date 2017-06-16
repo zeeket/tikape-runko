@@ -2,12 +2,18 @@ package tikape.runko.domain;
 
 public class Alue {
 
+    private int id;
     private String nimi;
     private String kuvaus;
 
-    public Alue(String nimi, String kuvaus) {
+    public Alue(int id,String nimi, String kuvaus) {
+        this.id = id;
         this.nimi= nimi;
         this.kuvaus = nimi;
+    }
+    
+    public int getId(){
+        return this.id;
     }
 
     public String getNimi() {

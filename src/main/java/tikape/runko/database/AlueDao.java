@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Alue;
 
-public class AlueDao implements Dao<Alue, String> {
+public class AlueDao implements Dao<Alue, Integer> {
 
     private Database database;
 
@@ -21,21 +21,23 @@ public class AlueDao implements Dao<Alue, String> {
         this.database = database;
     }
 
-    public Alue findOne(String nimi) throws SQLException {
+    @Override
+    public Alue findOne(Integer id) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE nimi = ?");
-        stmt.setObject(1, nimi);
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE id = ?");
+        stmt.setObject(1, id);
 
         ResultSet rs = stmt.executeQuery();
         boolean hasOne = rs.next();
         if (!hasOne) {
             return null;
         }
-
+        
+        int alueenid = rs.getInt("id");
         String alueennimi = rs.getString("nimi");
         String kuvaus = rs.getString("kuvaus");
 
-        Alue a = new Alue(alueennimi,kuvaus);
+        Alue a = new Alue(alueenid, alueennimi,kuvaus);
 
         rs.close();
         stmt.close();
@@ -59,10 +61,11 @@ public class AlueDao implements Dao<Alue, String> {
         ResultSet rs = stmt.executeQuery();
         List<Alue> alueet = new ArrayList<>();
         while (rs.next()) {
+            int id = rs.getInt("id");
             String nimi = rs.getString("nimi");
             String kuvaus = rs.getString("kuvaus");
 
-            alueet.add(new Alue(nimi, kuvaus));
+            alueet.add(new Alue(id, nimi, kuvaus));
         }
 
         rs.close();
@@ -72,12 +75,13 @@ public class AlueDao implements Dao<Alue, String> {
         return alueet;
     }
 
-    public void delete(String nimi) throws SQLException {
+    @Override
+    public void delete(Integer id) throws SQLException {
         // ei toteutettu alkuperäisessä opiskelijaDaossa
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("DELETE FROM Alue WHERE nimi = ?");
-        //vaihdetaan kysymysmerkki edellisellä rivillä parametrissa saatuun mjonoon
-        stmt.setObject(1, nimi);
+        PreparedStatement stmt = connection.prepareStatement("DELETE FROM Alue WHERE id = ?");
+        //vaihdetaan kysymysmerkki edellisellä rivillä parametrissa saatuun kokonaislukuun
+        stmt.setObject(1, id);
         //toteutetaan SQL query
         stmt.executeQuery();
     }

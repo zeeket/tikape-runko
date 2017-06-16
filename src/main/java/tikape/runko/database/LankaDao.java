@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tämä luokka hoitaa javan lanka olioiden ja tietokannan väliset
+ * toiminnot.
+ * 
  */
 package tikape.runko.database;
 
@@ -36,7 +36,7 @@ public class LankaDao implements Dao<Lanka, Integer> {
         }
 
             int langanid = rs.getInt("id");
-            Alue alue = aluedao.findOne(rs.getString("alue"));
+            Alue alue = aluedao.findOne(rs.getInt("alue"));
             String nimi = rs.getString("nimi");
 
         Lanka a = new Lanka(langanid,alue,nimi);
@@ -64,7 +64,7 @@ public class LankaDao implements Dao<Lanka, Integer> {
         List<Lanka> langat = new ArrayList<>();
         while (rs.next()) {
             int id = rs.getInt("id");
-            Alue alue = aluedao.findOne(rs.getString("alue"));
+            Alue alue = aluedao.findOne(rs.getInt("alue"));
             String nimi = rs.getString("nimi");
 
             langat.add(new Lanka(id,alue,nimi));

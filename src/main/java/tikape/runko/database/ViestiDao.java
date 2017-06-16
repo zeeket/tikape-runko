@@ -22,6 +22,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
 
     public ViestiDao(Database database,LankaDao lankadao) {
         this.database = database;
+        this.lankadao = lankadao;
     }
 
     @Override

@@ -21,6 +21,7 @@ public class LankaDao implements Dao<Lanka, Integer> {
 
     public LankaDao(Database database,AlueDao aluedao) {
         this.database = database;
+        this.aluedao = aluedao;
     }
 
     @Override
@@ -64,7 +65,8 @@ public class LankaDao implements Dao<Lanka, Integer> {
         List<Lanka> langat = new ArrayList<>();
         while (rs.next()) {
             int id = rs.getInt("id");
-            Alue alue = aluedao.findOne(rs.getInt("alue"));
+            Integer alueid = rs.getInt("alue");
+            Alue alue = aluedao.findOne(alueid);
             String nimi = rs.getString("nimi");
 
             langat.add(new Lanka(id,alue,nimi));

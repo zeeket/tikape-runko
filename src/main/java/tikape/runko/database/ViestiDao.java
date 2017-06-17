@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import tikape.runko.domain.Lanka;
 import tikape.runko.domain.Viesti;
@@ -120,6 +121,39 @@ public class ViestiDao implements Dao<Viesti, Integer> {
             return null;
         }
         return uusin;
+    }
+    
+      public Viesti lisaa(String sisalto, String nimimerkki, int lankaId) throws SQLException {
+            if(lankadao.findOne(lankaId)==null){
+                return null;
+            }
+        Connection connection = database.getConnection();
+        //valitaan suurin numero id sarakkeessa
+        PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM Viesti");
+        ResultSet rs = stmt.executeQuery();
+        //jos taulu on tyhjä, ensimmäisen rivin id on 0
+        int uudenViestinId = 0;
+        //muuten inkrementoidaan yhdellä seuraavaan id lukuun
+        if (rs.next()) {
+            uudenViestinId = rs.getInt(1) + 1;
+        }
+        String lahetysAika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+        PreparedStatement stmt2 = connection.prepareStatement("Insert INTO Viesti VALUES(?,?,?,?,?)");
+        stmt2.setInt(1, uudenViestinId);
+        stmt2.setString(2,sisalto);
+        stmt2.setString(3,lahetysAika);
+        stmt2.setString(4, nimimerkki);
+        stmt2.setInt(5, lankaId);
+        
+        
+                
+                //+ uudenViestinId + "," + sisalto + "," +lahetysAika+","+ nimimerkki+","+lankaId + ")";
+        stmt2.executeUpdate();
+        rs.close();
+        stmt.close();
+        stmt2.close();
+        connection.close();
+        return this.findOne(uudenViestinId);
     }
 
 

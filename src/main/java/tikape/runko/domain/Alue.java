@@ -9,7 +9,7 @@ public class Alue {
     public Alue(int id,String nimi, String kuvaus) {
         this.id = id;
         this.nimi= nimi;
-        this.kuvaus = nimi;
+        this.kuvaus = kuvaus;
     }
     
     public int getId(){

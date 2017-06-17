@@ -90,6 +90,32 @@ public class LankaDao implements Dao<Lanka, Integer> {
         stmt.executeQuery();
     }
 
+        public Lanka lisaa(String nimi, int alueId) throws SQLException {
+            if(aluedao.findOne(alueId)==null){
+                return null;
+            }
+        Connection connection = database.getConnection();
+        //valitaan suurin numero id sarakkeessa
+        PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM Lanka");
+        ResultSet rs = stmt.executeQuery();
+        //jos taulu on tyhjä, ensimmäisen rivin id on 0
+        int uudenLanganId = 0;
+        //muuten inkrementoidaan yhdellä seuraavaan id lukuun
+        if (rs.next()) {
+            uudenLanganId = rs.getInt(1) + 1;
+        }
+        //lopuksi tehdään SQL update
+        PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO Lanka VALUES(?,?,?)");
+        stmt2.setInt(1,uudenLanganId);
+        stmt2.setString(2, nimi);
+        stmt2.setInt(3, alueId);
+        stmt2.executeUpdate();
+        rs.close();
+        stmt.close();
+        stmt2.close();
+        connection.close();
+        return this.findOne(uudenLanganId);
+    }
 
 
 }

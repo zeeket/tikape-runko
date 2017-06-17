@@ -6,10 +6,11 @@
 package tikape.runko.database;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Lanka;
@@ -40,10 +41,10 @@ public class ViestiDao implements Dao<Viesti, Integer> {
             int viestiid = rs.getInt("id");
             Lanka lanka = lankadao.findOne(rs.getInt("lanka"));
             String nimimerkki = rs.getString("nimimerkki");
-            Date aika = rs.getDate("aika");
+            Timestamp aika = rs.getTimestamp("aika");
             String sisalto = rs.getString("sisalto");
 
-        //Viesti(Integer id, Lanka lanka, String nimimerkki, Date aika, String sisalto)
+        //Viesti(Integer id, Lanka lanka, String nimimerkki, Timestamp aika, String sisalto)
         Viesti v = new Viesti(viestiid,lanka,nimimerkki,aika,sisalto);
 
         rs.close();
@@ -71,10 +72,10 @@ public class ViestiDao implements Dao<Viesti, Integer> {
             int id = rs.getInt("id");
             Lanka lanka = lankadao.findOne(rs.getInt("lanka"));
             String nimimerkki = rs.getString("nimimerkki");
-            Date aika = rs.getDate("aika");
+            Timestamp aika = rs.getTimestamp("aika");
             String sisalto = rs.getString("sisalto");
 
-            //Viesti(Integer id, Lanka lanka, String nimimerkki, Date aika, String sisalto)
+            //Viesti(Integer id, Lanka lanka, String nimimerkki, Timestamp aika, String sisalto)
             langat.add(new Viesti(id,lanka,nimimerkki,aika,sisalto));
         }
 
@@ -97,21 +98,21 @@ public class ViestiDao implements Dao<Viesti, Integer> {
     }
     
     /**
-     * metodi palauttaa uusimman Date:in viestilistasta
-     * @param viestit lista viesteistä josta halutaan löytää uusin Date
-     * @return most recent Date
+     * metodi palauttaa uusimman Timestamp:in viestilistasta
+     * @param viestit lista viesteistä josta halutaan löytää uusin Timestamp
+     * @return most recent Timestamp
      */
-    public Date findNewestDate(List<Viesti> viestit){
+    public Timestamp findNewestTimestamp(List<Viesti> viestit){
         if (viestit.isEmpty()){
             return null;
         }
-        Date uusin = new Date((long)0);
+        Timestamp uusin = new Timestamp((long)0);
         for (Viesti v : viestit){
             if (v.getAika().after(uusin)){
                     uusin=v.getAika();
             }
         }
-        if(uusin.equals(new Date((long)0))){
+        if(uusin.equals(new Timestamp((long)0))){
             /** jos jostain syystä mikään 
              * parametri listan viesti ei ole
              * 1.1.1970 jälkeen, palautetaan null

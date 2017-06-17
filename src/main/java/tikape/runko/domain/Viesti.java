@@ -1,17 +1,18 @@
 package tikape.runko.domain;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Viesti {
 
     private Integer id;
     private Lanka lanka;
     private String nimimerkki;
-    private Date aika;
+    private Timestamp aika;
     private String sisalto;
     
 
-    public Viesti(Integer id, Lanka lanka, String nimimerkki, Date aika, String sisalto) {
+    public Viesti(Integer id, Lanka lanka, String nimimerkki, Timestamp aika, String sisalto) {
         this.id = id;
         this.lanka = lanka;
         this.nimimerkki = nimimerkki;
@@ -43,11 +44,11 @@ public class Viesti {
         this.lanka=lanka;
     }
     
-    public Date getAika(){
+    public Timestamp getAika(){
         return this.aika;
     }
     
-    public void setAika(Date uusiAika){
+    public void setAika(Timestamp uusiAika){
         this.aika = uusiAika;
     }
     

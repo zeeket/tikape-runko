@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Alue;
@@ -57,22 +58,53 @@ public class AlueDao implements Dao<Alue, Integer> {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue");
-
         ResultSet rs = stmt.executeQuery();
         List<Alue> alueet = new ArrayList<>();
         while (rs.next()) {
             int id = rs.getInt("id");
             String nimi = rs.getString("nimi");
-            String kuvaus = rs.getString("kuvaus");
-
-            alueet.add(new Alue(id, nimi, kuvaus));
+            String viimeisin = this.uusinViesti(id);
+            int viesteja = this.montakoViestia(id);
+            alueet.add(new Alue(id, nimi,"kuvaus",viesteja,viimeisin));
         }
-
+        
         rs.close();
         stmt.close();
         connection.close();
 
         return alueet;
+    }
+    
+    public int montakoViestia(Integer id) throws SQLException{
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS summa FROM Viesti JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = ?");
+        stmt.setInt(1,id);
+        ResultSet rs = stmt.executeQuery();
+        //SELECT * FROM Alue Viesti INNER JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = Alue.id
+        int palautettava=0;
+        if(rs.next()){
+            palautettava=rs.getInt("summa");
+        }
+        rs.close();
+        stmt.close();
+        connection.close();
+                return palautettava;
+    }
+    
+        public String uusinViesti(Integer id) throws SQLException{
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.aika) AS viimeisin FROM Viesti JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = ?");
+        stmt.setInt(1,id);
+        ResultSet rs = stmt.executeQuery();
+        //SELECT * FROM Alue Viesti INNER JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = Alue.id
+        String palautettava="ei koskaan";
+        if(rs.next()&&rs.getTimestamp("viimeisin")!=null){
+            palautettava=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getTimestamp("viimeisin"));
+        }
+        rs.close();
+        stmt.close();
+        connection.close();
+                return palautettava;
     }
 
     @Override

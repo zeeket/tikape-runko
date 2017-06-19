@@ -2,15 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Otsikko</title>
+        <title>VapaaSana.ml</title>
         <meta charset="utf-8" />
     </head>
 
     <body>
-        <h1>Heippa vaan!</h1>
 
-        <p>Ja .. <span th:text="${viesti}">jotain?</span></p>
+        <table>
+            <tr>
+                <th>Alue</th>
+                <th>Viesteja yhteensa</th>
+                <th>Viimeisin viesti</th>                
+            </tr>
+            <tr th:each="alue: ${alueet}">
+                
+                <td><a th:href="@{~/alue/{id}(id=${alue.id})}"><span th:text="${alue.nimi}">Alueen nimi</span></a></td>
+                <td><span th:text="${alue.viesteja}">Alueen viestimäärä</span></td>
+                <td><span th:text="${alue.viimeisin}">Alueen viimeisin viesti</span></td>
+                
+            </tr>
+            
+            
+        </table>
 
-        <p><a href="/opiskelijat">Tästä opiskelijalistaukseen.</a></p>
+        <p>(c) Emil 2017</p>
     </body>
 </html>

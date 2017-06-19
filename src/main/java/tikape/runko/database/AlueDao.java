@@ -124,6 +124,9 @@ public class AlueDao implements Dao<Alue, Integer> {
     }
 
     public Alue lisaa(String nimi, String kuvaus) throws SQLException {
+        if(nimi.isEmpty()){
+            return null;
+        } 
         Connection connection = database.getConnection();
         //valitaan suurin numero id sarakkeessa
         PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM Alue");

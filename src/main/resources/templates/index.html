@@ -19,12 +19,13 @@
                 <td><a th:href="@{~/alue/{id}(id=${alue.id})}"><span th:text="${alue.nimi}">Alueen nimi</span></a></td>
                 <td><span th:text="${alue.viesteja}">Alueen viestimäärä</span></td>
                 <td><span th:text="${alue.viimeisin}">Alueen viimeisin viesti</span></td>
-                
             </tr>
-            
-            
         </table>
 
-        <p>(c) Emil 2017</p>
+        <form method="POST" action="/alueenlisays">  
+            <p>Uusi alue:</p>
+            <input type="text" name="nimi"/>
+            <input type="submit" name="Lisaa alue"/>
+        </form>
     </body>
 </html>

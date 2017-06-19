@@ -1,6 +1,9 @@
 package tikape.runko;
 
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -27,13 +30,14 @@ public class Main {
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
+    
 
-        get("/opiskelijat", (req, res) -> {
-            HashMap map = new HashMap<>();
-            map.put("opiskelijat", opiskelijaDao.findAll());
-
-            return new ModelAndView(map, "opiskelijat");
-        }, new ThymeleafTemplateEngine());
+        post("/alueenlisays", (req, res) -> {
+            String nimi = req.queryParams("nimi");
+            aluedao.lisaa(nimi, "html sivusta lisatty alue");
+            res.redirect("/");
+            return "";
+        });
 
         get("/opiskelijat/:id", (req, res) -> {
             HashMap map = new HashMap<>();

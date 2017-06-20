@@ -39,11 +39,12 @@ public class Main {
             return "";
         });
 
-        get("/opiskelijat/:id", (req, res) -> {
+            get("/alue/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelija", opiskelijaDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("alue", aluedao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("langat", lankadao.findAllIn(Integer.parseInt(req.params("id"))));
 
-            return new ModelAndView(map, "opiskelija");
+            return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
-    }
+}
 }

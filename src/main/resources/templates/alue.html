@@ -2,13 +2,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Otsikko</title>
+        <title>Alueet-VapaaSana.ml</title>
         <meta charset="utf-8" />
     </head>
 
     <body>
-        <h1>Hei <span th:text="${opiskelija.nimi}">opiskelija</span>!</h1>
+        <table>
+            <tr>
+                <th>Alue: <span th:text="${alue.nimi}">Alueen nimi</span></th>
+                <th>Viesteja yhteensa</th>
+                <th>Viimeisin viesti</th>                
+            </tr>
+            <tr th:each="lanka: ${langat}">
+                
+                <td><a th:href="@{~/lanka/{lanka}(lanka=${lanka.id})}"><span th:text="${lanka.nimi}">Langan nimi</span></a></td>
+                <td><span th:text="${lanka.viesteja}">Langan viestimäärä</span></td>
+                <td><span th:text="${lanka.viimeisin}">Langan viimeisin viesti</span></td>
+            </tr>
+        </table>
 
-        <p>Olet saapunut opiskelijan <span th:text="${opiskelija.nimi}">opiskelija</span> henkilökohtaiselle sivulle.</p>
+        <form method="POST" action="/langanlisays" id="langanlisays">  
+            <p>Uusi keskustelunavaus:</p>
+            <input type="text" name="langannimi" placeholder="Keskustelun otsikko"/>
+            <input type="text" name="nimimerkki" placeholder="Nimimerkkisi"/>
+            <p>Aloitusviesti:</p>
+            <textarea rows="3" cols="50" maxlength="140" name="sisalto" form="langanlisays" placeholder="Kirjoita viestisi tahan, max 140 merkkia..."></textarea>
+            <input type="hidden" name="alue" value="1" th:value="${alue.id}" />
+            <input type="submit" name="Lisaa keskustelunavaus" value="Lisaa keskustelunavaus"/>
+        </form>
     </body>
 </html>

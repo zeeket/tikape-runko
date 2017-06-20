@@ -137,7 +137,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
         if (rs.next()) {
             uudenViestinId = rs.getInt(1) + 1;
         }
-        String lahetysAika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+        String lahetysAika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssX").format(new Date());
         PreparedStatement stmt2 = connection.prepareStatement("Insert INTO viesti VALUES(?,?,?,?,?)");
         stmt2.setInt(1, uudenViestinId);
         stmt2.setString(2,sisalto);

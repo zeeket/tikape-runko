@@ -2,24 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Alue-VapaaSana.ml</title>
+        <title>Lanka-VapaaSana.ml</title>
         <meta charset="utf-8" />
     </head>
 
     <body>
-        <table>
-            <tr>
-                <th>Alue: <span th:text="${alue.nimi}">Alueen nimi</span></th>
-                <th>Viesteja yhteensa</th>
-                <th>Viimeisin viesti</th>                
+
+        <p><b>Alue: <span th:text="${alue.nimi}">Alueen nimi</span> &rarr; <span th:text="${lanka.nimi}">Langan nimi</span></b></p>
+
+            <table>
+            <tr th:each="viesti,iter : ${viestit}">
+                <td>(<span th:text="${iter.index}">monesko viesti langassa</span>) <span th:text="${viesti.sisalto}">viestin sisalto</span> t.  <span th:text="${viesti.nimimerkki}">nimimerkki</span></td>
             </tr>
-            <tr th:each="lanka: ${langat}">
-                
-                <td><a th:href="@{~/lanka/{id}(id=${lanka.id})}"><span th:text="${lanka.nimi}">Langan nimi</span></a></td>
-                <td><span th:text="${lanka.viesteja}">Langan viestimäärä</span></td>
-                <td><span th:text="${lanka.viimeisin}">Langan viimeisin viesti</span></td>
-            </tr>
-        </table>
+            </table>
+
 
         <form method="POST" action="/langanlisays" id="langanlisays">  
             <p>Uusi keskustelunavaus:</p>

@@ -155,6 +155,29 @@ public class ViestiDao implements Dao<Viesti, Integer> {
         connection.close();
         return this.findOne(uudenViestinId);
     }
+      
+          public List<Viesti> findAllIn(int lankaId) throws SQLException {
+
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE lanka = ?");
+        stmt.setInt(1, lankaId);
+        ResultSet rs = stmt.executeQuery();
+        List<Viesti> viestit = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            Lanka lanka = lankadao.findOne(rs.getInt("lanka"));
+            String nimimerkki = rs.getString("nimimerkki");
+            Timestamp aika = rs.getTimestamp("aika");
+            String sisalto = rs.getString("sisalto");
+            //public Viesti(Integer id, Lanka lanka, String nimimerkki, Timestamp aika, String sisalto)
+            viestit.add(new Viesti(id, lanka, nimimerkki, aika, sisalto));
+        }
+
+        rs.close();
+        stmt.close();
+        connection.close();
+        return viestit;
+    }
 
 
 }

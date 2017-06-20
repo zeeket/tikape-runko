@@ -11,6 +11,7 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.LankaDao;
 import tikape.runko.database.ViestiDao;
+import tikape.runko.domain.Lanka;
 
 public class Main {
 
@@ -55,6 +56,16 @@ public class Main {
             map.put("langat", lankadao.findAllIn(Integer.parseInt(req.params("id"))));
 
             return new ModelAndView(map, "alue");
+        }, new ThymeleafTemplateEngine());
+            
+            get("/lanka/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            Lanka tamalanka = lankadao.findOne(Integer.parseInt(req.params("id")));
+            map.put("alue", tamalanka.getAlue());
+            map.put("lanka", tamalanka);
+            map.put("viestit", viestidao.findAllIn(Integer.parseInt(req.params("id"))));
+
+            return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());
 }
 }

@@ -12,19 +12,18 @@
 
             <table>
             <tr th:each="viesti,iter : ${viestit}">
-                <td>(<span th:text="${iter.index}">monesko viesti langassa</span>) <span th:text="${viesti.sisalto}">viestin sisalto</span> t.  <span th:text="${viesti.nimimerkki}">nimimerkki</span></td>
+                <td>(<span th:text="${iter.index}+1">monesko viesti langassa</span>) <span th:text="${viesti.sisalto}">viestin sisalto</span> t.  <span th:text="${viesti.nimimerkki}">nimimerkki</span></td>
             </tr>
             </table>
 
 
-        <form method="POST" action="/langanlisays" id="langanlisays">  
-            <p>Uusi keskustelunavaus:</p>
-            <input type="text" name="langannimi" placeholder="Keskustelun otsikko"/>
+        <form method="POST" action="/viestilisays" id="viestinlisays">  
+            <p>Uusi viesti:</p>
             <input type="text" name="nimimerkki" placeholder="Nimimerkkisi"/>
-            <p>Aloitusviesti:</p>
-            <textarea rows="3" cols="50" maxlength="140" name="sisalto" form="langanlisays" placeholder="Kirjoita viestisi tahan, max 140 merkkia..."></textarea>
-            <input type="hidden" name="alue" value="1" th:value="${alue.id}" />
-            <input type="submit" name="Lisaa keskustelunavaus" value="Lisaa keskustelunavaus"/>
+            <br></br>
+            <textarea rows="3" cols="50" maxlength="140" name="sisalto" form="viestinlisays" placeholder="Kirjoita viestisi tahan, max 140 merkkia..."></textarea>
+            <input type="hidden" name="langanid" value="1" th:value="${lanka.id}" />
+            <input type="submit" name="Lisaa viesti" value="Lisaa viesti"/>
         </form>
     </body>
 </html>

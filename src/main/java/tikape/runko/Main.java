@@ -58,6 +58,17 @@ public class Main {
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
             
+                    post("/langanlisays", (req, res) -> {
+            String langannimi = req.queryParams("langannimi");
+            String nimimerkki = req.queryParams("nimimerkki");
+            String sisalto = req.queryParams("sisalto");
+            int alueid = Integer.parseInt(req.queryParams("alue"));
+            Lanka lisattylanka = lankadao.lisaa(langannimi,alueid);
+            viestidao.lisaa(sisalto, nimimerkki, lisattylanka.getId());
+            res.redirect("/alue/"+alueid);
+            return "";
+        });
+            
             get("/lanka/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             Lanka tamalanka = lankadao.findOne(Integer.parseInt(req.params("id")));
@@ -67,5 +78,14 @@ public class Main {
 
             return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());
+            
+                               post("/viestilisays", (req, res) -> {
+            int langanid = Integer.parseInt(req.queryParams("langanid"));
+            String nimimerkki = req.queryParams("nimimerkki");
+            String sisalto = req.queryParams("sisalto");
+            viestidao.lisaa(sisalto, nimimerkki, langanid);
+            res.redirect("/lanka/"+langanid);
+            return "";
+        });
 }
 }

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import tikape.runko.domain.Lanka;
@@ -137,11 +138,11 @@ public class ViestiDao implements Dao<Viesti, Integer> {
         if (rs.next()) {
             uudenViestinId = rs.getInt(1) + 1;
         }
-        String lahetysAika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSX").format(new Date());
+        Timestamp nyt = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
         PreparedStatement stmt2 = connection.prepareStatement("Insert INTO viesti VALUES(?,?,?,?,?)");
         stmt2.setInt(1, uudenViestinId);
         stmt2.setString(2,sisalto);
-        stmt2.setString(3,lahetysAika);
+        stmt2.setTimestamp(3, nyt);
         stmt2.setString(4, nimimerkki);
         stmt2.setInt(5, lankaId);
         

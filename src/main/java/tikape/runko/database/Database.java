@@ -70,7 +70,7 @@ public class Database {
         
         lista.add("CREATE TABLE lanka (id integer PRIMARY KEY, nimi varchar(100), alue integer NOT NULL, FOREIGN KEY(alue) REFERENCES alue(id));");
 
-        lista.add("CREATE TABLE viesti (id integer PRIMARY KEY, sisalto text NOT NULL, aika datetime NOT NULL, nimimerkki varchar(15) NOT NULL, lanka integer NOT NULL, FOREIGN KEY(lanka) REFERENCES lanka(id));");
+        lista.add("CREATE TABLE viesti (id integer PRIMARY KEY, sisalto text NOT NULL, aika timestamp NOT NULL, nimimerkki varchar(15) NOT NULL, lanka integer NOT NULL, FOREIGN KEY(lanka) REFERENCES lanka(id));");
 
         return lista;
     }

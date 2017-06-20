@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tikape.runko.database;
 
 import java.sql.Connection;
@@ -25,7 +20,7 @@ public class AlueDao implements Dao<Alue, Integer> {
     @Override
     public Alue findOne(Integer id) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM alue WHERE id = ?");
         stmt.setObject(1, id);
 
         ResultSet rs = stmt.executeQuery();
@@ -57,7 +52,7 @@ public class AlueDao implements Dao<Alue, Integer> {
     public List<Alue> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM alue");
         ResultSet rs = stmt.executeQuery();
         List<Alue> alueet = new ArrayList<>();
         while (rs.next()) {
@@ -77,7 +72,7 @@ public class AlueDao implements Dao<Alue, Integer> {
     
     public int montakoViestia(Integer id) throws SQLException{
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS summa FROM Viesti JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS summa FROM viesti JOIN lanka ON viesti.lanka=lanka.id WHERE lanka.alue = ?");
         stmt.setInt(1,id);
         ResultSet rs = stmt.executeQuery();
         //SELECT * FROM Alue Viesti INNER JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = Alue.id
@@ -93,7 +88,7 @@ public class AlueDao implements Dao<Alue, Integer> {
     
         public String uusinViesti(Integer id) throws SQLException{
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.aika) AS viimeisin FROM Viesti JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(viesti.aika) AS viimeisin FROM viesti JOIN lanka ON viesti.lanka=lanka.id WHERE lanka.alue = ?");
         stmt.setInt(1,id);
         ResultSet rs = stmt.executeQuery();
         //SELECT * FROM Alue Viesti INNER JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = Alue.id
@@ -112,7 +107,7 @@ public class AlueDao implements Dao<Alue, Integer> {
         //ei tee mitään jos paramissa annettua id:tä ei löydy
         if (this.findOne(id) != null) {
             Connection connection = database.getConnection();
-            PreparedStatement stmt = connection.prepareStatement("DELETE FROM Alue WHERE id = ?");
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM alue WHERE id = ?");
             //vaihdetaan kysymysmerkki edellisellä rivillä parametrissa saatuun kokonaislukuun
             stmt.setObject(1, id);
             //toteutetaan SQL query
@@ -129,7 +124,7 @@ public class AlueDao implements Dao<Alue, Integer> {
         } 
         Connection connection = database.getConnection();
         //valitaan suurin numero id sarakkeessa
-        PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM Alue");
+        PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM alue");
         ResultSet rs = stmt.executeQuery();
         //jos taulu on tyhjä, ensimmäisen rivin id on 0
         int uudenAlueenId = 0;
@@ -138,7 +133,7 @@ public class AlueDao implements Dao<Alue, Integer> {
             uudenAlueenId = rs.getInt(1) + 1;
         }
         //Lopuksi tehdään SQL update
-        PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO Alue VALUES(?,?,?)");
+        PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO alue VALUES(?,?,?)");
         stmt2.setInt(1, uudenAlueenId);
         stmt2.setString(2, nimi);
         stmt2.setString(3, kuvaus);

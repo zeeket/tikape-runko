@@ -30,7 +30,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
     @Override
     public Viesti findOne(Integer id) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM viesti WHERE id = ?");
         stmt.setObject(1, id);
 
         ResultSet rs = stmt.executeQuery();
@@ -65,7 +65,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
     public List<Viesti> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM viesti");
 
         ResultSet rs = stmt.executeQuery();
         List<Viesti> langat = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
     public void delete(Integer id) throws SQLException {
         // ei toteutettu alkuperäisessä opiskelijaDaossa
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("DELETE FROM Viesti WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("DELETE FROM viesti WHERE id = ?");
         //vaihdetaan kysymysmerkki edellisellä rivillä parametrissa saatuun mjonoon
         stmt.setObject(1, id);
         //toteutetaan SQL query
@@ -129,7 +129,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
             }
         Connection connection = database.getConnection();
         //valitaan suurin numero id sarakkeessa
-        PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM Viesti");
+        PreparedStatement stmt = connection.prepareStatement("SELECT max(id) FROM viesti");
         ResultSet rs = stmt.executeQuery();
         //jos taulu on tyhjä, ensimmäisen rivin id on 0
         int uudenViestinId = 0;
@@ -138,7 +138,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
             uudenViestinId = rs.getInt(1) + 1;
         }
         String lahetysAika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-        PreparedStatement stmt2 = connection.prepareStatement("Insert INTO Viesti VALUES(?,?,?,?,?)");
+        PreparedStatement stmt2 = connection.prepareStatement("Insert INTO viesti VALUES(?,?,?,?,?)");
         stmt2.setInt(1, uudenViestinId);
         stmt2.setString(2,sisalto);
         stmt2.setString(3,lahetysAika);
@@ -159,7 +159,7 @@ public class ViestiDao implements Dao<Viesti, Integer> {
           public List<Viesti> findAllIn(int lankaId) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE lanka = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM viesti WHERE lanka = ?");
         stmt.setInt(1, lankaId);
         ResultSet rs = stmt.executeQuery();
         List<Viesti> viestit = new ArrayList<>();

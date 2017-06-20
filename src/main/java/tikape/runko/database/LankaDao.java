@@ -130,7 +130,7 @@ public class LankaDao implements Dao<Lanka, Integer> {
     public List<Lanka> findAllIn(int alueId) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Lanka WHERE alue = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM lanka WHERE alue = ?");
         stmt.setInt(1, alueId);
         ResultSet rs = stmt.executeQuery();
         List<Lanka> langat = new ArrayList<>();
@@ -159,7 +159,7 @@ public class LankaDao implements Dao<Lanka, Integer> {
      */
     public int montakoViestia(Integer id) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS summa FROM Viesti JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS summa FROM viesti JOIN lanka ON viesti.lanka=lanka.id WHERE lanka.id = ?");
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
         //SELECT * FROM Alue Viesti INNER JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = Alue.id
@@ -181,7 +181,7 @@ public class LankaDao implements Dao<Lanka, Integer> {
      */
     public String uusinViesti(Integer id) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.aika) AS viimeisin FROM Viesti JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(viesti.aika) AS viimeisin FROM viesti JOIN lanka ON viesti.lanka=lanka.id WHERE lanka.id = ?");
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
         //SELECT * FROM Alue Viesti INNER JOIN Lanka ON Viesti.lanka=Lanka.id WHERE Lanka.alue = Alue.id

@@ -62,30 +62,15 @@ public class Database {
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("DROP TABLE Alue;");
-        lista.add("DROP TABLE Lanka;");
-        lista.add("DROP TABLE Viesti;");
+//        lista.add("DROP TABLE Alue;");
+//        lista.add("DROP TABLE Lanka;");
+//        lista.add("DROP TABLE Viesti;");
         // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
-        lista.add("CREATE TABLE Lanka ("
-                + "id integer SERIAL PRIMARY KEY, "
-                + "nimi varchar(100), "
-                + "alue integer NOT NULL, "
-                + "FOREIGN KEY(alue) REFERENCES Alue(id)"
-                + ");");
+        lista.add("CREATE TABLE Lanka (id integer SERIAL PRIMARY KEY, nimi varchar(100), alue integer NOT NULL, FOREIGN KEY(alue) REFERENCES Alue(id));");
 
-        lista.add("CREATE TABLE Alue ("
-                + "id integer SERIAL PRIMARY KEY, "
-                + "nimi varchar(50) NOT NULL, "
-                + "kuvaus varchar(300)"
-                + ");");
+        lista.add("CREATE TABLE Alue (id integer SERIAL PRIMARY KEY, nimi varchar(50) NOT NULL, kuvaus varchar(300));");
 
-        lista.add("CREATE TABLE Viesti (id integer SERIAL PRIMARY KEY, "
-                + "sisalto text NOT NULL, "
-                + "aika datetime NOT NULL, "
-                + "nimimerkki varchar(15) NOT NULL, "
-                + "lanka integer NOT NULL, "
-                + "FOREIGN KEY(lanka) REFERENCES Lanka(id)"
-                + ");");
+        lista.add("CREATE TABLE Viesti (id integer SERIAL PRIMARY KEY, sisalto text NOT NULL, aika datetime NOT NULL, nimimerkki varchar(15) NOT NULL, lanka integer NOT NULL, FOREIGN KEY(lanka) REFERENCES Lanka(id));");
 
         return lista;
     }
@@ -94,27 +79,11 @@ public class Database {
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("CREATE TABLE Lanka ( "
-                + "id integer PRIMARY KEY, "
-                + "nimi varchar(100), "
-                + "alue integer NOT NULL, "
-                + "FOREIGN KEY(alue) REFERENCES Alue(id)"
-                + ");");
+        lista.add("CREATE TABLE Lanka (id integer PRIMARY KEY, nimi varchar(100), alue integer NOT NULL, FOREIGN KEY(alue) REFERENCES Alue(id));");
 
-        lista.add("CREATE TABLE Alue ( "
-                + "id integer PRIMARY KEY, "
-                + "nimi varchar(50) NOT NULL, "
-                + "kuvaus varchar(300)"
-                + ");");
+        lista.add("CREATE TABLE Alue (id integer PRIMARY KEY, nimi varchar(50) NOT NULL, kuvaus varchar(300));");
 
-        lista.add("CREATE TABLE Viesti ("
-                + "id integer PRIMARY KEY, "
-                + "sisalto text NOT NULL, "
-                + "aika datetime NOT NULL, "
-                + "nimimerkki varchar(15) NOT NULL, "
-                + "lanka integer NOT NULL, "
-                + "FOREIGN KEY(lanka) REFERENCES Lanka(id)"
-                + ");");
+        lista.add("CREATE TABLE Viesti (id integer PRIMARY KEY, sisalto text NOT NULL, aika datetime NOT NULL, nimimerkki varchar(15) NOT NULL, lanka integer NOT NULL, FOREIGN KEY(lanka) REFERENCES Lanka(id));");
 
         return lista;
     }

@@ -10,19 +10,29 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.AlueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.LankaDao;
-import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.ViestiDao;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:tietokanta.db");
+        
+                // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:tietokanta.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        } 
+        Database database = new Database(jdbcOsoite);
         database.init();
 
         AlueDao aluedao = new AlueDao(database);
         LankaDao lankadao = new LankaDao(database,aluedao);
         ViestiDao viestidao = new ViestiDao(database,lankadao);
-        OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
+
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
